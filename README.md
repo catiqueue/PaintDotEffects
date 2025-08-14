@@ -33,12 +33,12 @@ Elementary Cellular Automaton implementation as a Paint.NET plugin.
 
 ---------------------------------------
 
-## Basket
-That one is somewhat recent.  
-I didn't enforce my own naming convention, cause I didn't care.
+## Paint.Basket
+Ported to the newest versions of Paint.NET.  
+Just a cute pattern. Various options are configurable.
 
 ### Example output:
-![To be provided (when I fix my plugins)]()
+![Paint.Basket Image](.examples/Basket_What_Are_You_Doing_Example.png)
 
 ---------------------------------------
 
