@@ -95,7 +95,7 @@ internal sealed class PaintDotBasket() : PropertyBasedBitmapEffect(Info.DisplayN
             ? IsLineEvenCombined(pos / _settings.Size, _settings.Spacer + IVec2.One)
               ? _settings.FirstColor.GetSrgb()
               : _settings.SecondColor.GetSrgb()
-            : IsLineActive(pos.Y, _settings.Spacer.Y + 1)
+            : IsLineActive(pos.Y / _settings.Size.Y, _settings.Spacer.Y + 1)
               ? _settings.SecondColor.GetSrgb()
               : _settings.FirstColor.GetSrgb()
           : _settings.BackgroundColor.GetSrgb();
@@ -132,8 +132,8 @@ internal static class PropertyBasedEffectConfigTokenExtensions {
     FirstColor = token.GetProperty<ManagedColorProperty>(PaintDotBasket.PropertyNames.FirstColor)!.Value,
     SecondColor = token.GetProperty<ManagedColorProperty>(PaintDotBasket.PropertyNames.SecondColor)!.Value,
     Spacer = new IVec2(x: token.GetProperty<Int32Property>(PaintDotBasket.PropertyNames.XSpacer)!.Value, 
-      y:token.GetProperty<Int32Property>(PaintDotBasket.PropertyNames.YSpacer)!.Value),
+                       y:token.GetProperty<Int32Property>(PaintDotBasket.PropertyNames.YSpacer)!.Value),
     Size = new IVec2(x: token.GetProperty<Int32Property>(PaintDotBasket.PropertyNames.XSize)!.Value, 
-      y: token.GetProperty<Int32Property>(PaintDotBasket.PropertyNames.YSize)!.Value)
+                     y: token.GetProperty<Int32Property>(PaintDotBasket.PropertyNames.YSize)!.Value)
   };
 }
