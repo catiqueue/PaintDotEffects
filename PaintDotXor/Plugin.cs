@@ -28,7 +28,6 @@ public sealed class Plugin() : PropertyBasedBitmapEffect(Info.DisplayName, Info.
   }
 
   protected override void OnRender(IBitmapEffectOutput output) {
-    // should I dispose this? I think it's managed by Paint.NET
     using var source = Environment.GetSourceBitmapBgra32();
     using var sourceLock = source.Lock(output.Bounds);
     var sourceRegion = sourceLock.AsRegionPtr();
