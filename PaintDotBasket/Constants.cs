@@ -8,4 +8,6 @@ internal static class Constants {
   public const string Culture = "en-US";
   public const string Website = "https://github.com/catiqueue";
   public const string Copyright = $"Copyright © {Author} 2025";
+  public const string Base64Image = "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJUExURf////8AAAAAAJqVApEAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAXSURBVBjTY2AQgEIhKIALIETopkZICADJXwaBQIZGVgAAAABJRU5ErkJggg==";
+  public const int Base64ImageStringLength = 151;
 }

@@ -15,6 +15,6 @@ internal sealed class PluginSupportInfo : IPluginSupportInfo {
   public Uri WebsiteUri => new(Constants.Website);
   
   public static CultureInfo Culture => new(Constants.Culture);
-  public static Image Icon { get; } = Image.FromStream(new MemoryStream(Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJUExURf////8AAAAAAJqVApEAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAXSURBVBjTY2AQgEIhKIALIETopkZICADJXwaBQIZGVgAAAABJRU5ErkJggg=="), 0, 151), true);
+  public static Image Icon { get; } = Image.FromStream(new MemoryStream(Convert.FromBase64String(Constants.Base64Image), 0, Constants.Base64ImageStringLength), true);
   public static string SubMenu => SubmenuNames.Render;
 }
