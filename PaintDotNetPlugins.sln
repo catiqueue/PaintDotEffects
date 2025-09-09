@@ -13,15 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintDotGen", "PaintDotGen\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaintDotRnd", "PaintDotRnd", "{343A4BE7-A5AB-41CA-923F-A597314FE0E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LolK.PaintDotNet.Plugins.PaintDotRnd", "PaintDotRnd\LolK.PaintDotNet.Plugins.PaintDotRnd.csproj", "{E1D4CBE3-9A91-440F-A8D6-A450606C286F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintDotRnd", "PaintDotRnd\PaintDotRnd.csproj", "{E1D4CBE3-9A91-440F-A8D6-A450606C286F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaintDotXor", "PaintDotXor", "{5A6B39D1-8EBD-46C2-15BD-C558ADD3306A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintDotXor", "PaintDotXor\PaintDotXor.csproj", "{246AD9AC-EC5C-4B98-AF8A-A87806F2D4ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintDotCommon", "PaintDotCommon\PaintDotCommon.csproj", "{0B966E7B-6931-4603-94C4-8C27CB2DE26B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintDotTests", "PaintDotTests\PaintDotTests.csproj", "{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,18 +103,6 @@ Global
 		{0B966E7B-6931-4603-94C4-8C27CB2DE26B}.Release|x64.Build.0 = Release|Any CPU
 		{0B966E7B-6931-4603-94C4-8C27CB2DE26B}.Release|x86.ActiveCfg = Release|Any CPU
 		{0B966E7B-6931-4603-94C4-8C27CB2DE26B}.Release|x86.Build.0 = Release|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Debug|x64.Build.0 = Debug|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Debug|x86.Build.0 = Debug|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Release|x64.ActiveCfg = Release|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Release|x64.Build.0 = Release|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Release|x86.ActiveCfg = Release|Any CPU
-		{54E70EA4-6CF2-467C-AC9E-E40EB625C98D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
