@@ -3,7 +3,7 @@
 internal static class Constants {
   public const string EffectName = "Paint.RND";
   public const string Description = "Simple random effect for Paint.NET";
-  public const string Version = "1.4.1";
+  public const string Version = "1.5.0";
   public const string Author = "catiqueue";
   public const string Culture = "en-US";
   public const string Website = "https://github.com/catiqueue";
