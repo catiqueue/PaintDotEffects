@@ -1,5 +1,4 @@
 ﻿using System;
-using catiqueue.PaintDotNet.Plugins.Common;
 using catiqueue.PaintDotNet.Plugins.Common.Data;
 using catiqueue.PaintDotNet.Plugins.PaintDotXor.Types;
 using PaintDotNet;
@@ -17,11 +16,11 @@ public sealed class Plugin() : PropertyBasedBitmapEffect(Info.DisplayName, Info.
 
   private enum PropertyNames { OffsetX, OffsetY, Zoom, FilterMode, Divisor, Operation, UseHSV, Color }
 
-  private void Render(RegionPtr<ColorBgra32> input, RegionPtr<ColorBgra32> output, Vector2I offset) {
+  private void Render(RegionPtr<ColorBgra32> input, RegionPtr<ColorBgra32> output, Vector<int> offset) {
     Settings.Deconstruct(out var operation, out var filter, out var painter, out var cameraParameters);
     for (int y = 0; y < output.Height && !IsCancelRequested; y++) {
       for (int x = 0; x < output.Width; x++) {
-        int magic = operation(cameraParameters.ApplyTo(new Vector2I(x, y) + offset));
+        int magic = operation(cameraParameters.ApplyTo(new Vector<int>(x, y) + offset));
         output[x, y] = filter(magic) ? painter(magic).GetSrgb() : input[x, y];
       }
     }
@@ -36,14 +35,14 @@ public sealed class Plugin() : PropertyBasedBitmapEffect(Info.DisplayName, Info.
     using var outputLock = output.LockBgra32();
     var outputRegion = outputLock.AsRegionPtr();
 
-    Render(sourceRegion, outputRegion, new Vector2I(outputLocation.X, outputLocation.Y));
+    Render(sourceRegion, outputRegion, new Vector<int>(outputLocation.X, outputLocation.Y));
   }
   
   protected override void OnSetToken(PropertyBasedEffectConfigToken? newToken) {
     if(newToken == null) return;
     
     Settings.Camera = new Camera(
-      Offset: new Vector2I(
+      Offset: new Vector<int>(
         newToken.GetProperty<Int32Property>(PropertyNames.OffsetX)!.Value, 
         newToken.GetProperty<Int32Property>(PropertyNames.OffsetY)!.Value),
       Zoom: newToken.GetProperty<Int32Property>(PropertyNames.Zoom)!.Value

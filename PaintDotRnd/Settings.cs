@@ -1,6 +1,4 @@
-﻿using catiqueue.PaintDotNet.Plugins.Common.Data;
-
-namespace catiqueue.PaintDotNet.Plugins.PaintDotRnd;
+﻿namespace catiqueue.PaintDotNet.Plugins.PaintDotRnd;
 
 internal sealed record Settings(int Seed, int Precision, int Zoom) {
   public static Settings Default => new(-1, 2, 1);

@@ -18,7 +18,7 @@ public static class Math {
       ? (transformRange.End - transformRange.Start) 
         * (value - valueRange.Start) / (valueRange.End - valueRange.Start) 
         + transformRange.Start 
-      : throw new ArgumentException($"The value {value} is not in range {valueRange.Start}-{valueRange.End} or the range is invalid.", nameof(value));
+      : throw new ArgumentException($"The value {value} is not in range {valueRange} or the range is invalid.", nameof(value));
 
   /// <summary>
   /// Normalizes the value with the known range valueRange to the normalized range 0..1.
@@ -66,6 +66,6 @@ public static class Math {
   /// <param name="pos">The position to access</param>
   /// <param name="width">The width of the imagined two-dimensional array</param>
   /// <returns>The index into the one-dimensional array</returns>
-  public static int Array2DAccessTo1D(Vector2I pos, int width) 
+  public static int Array2DAccessTo1D(Vector<int> pos, int width) 
     => pos.Y * width + pos.X;
 }

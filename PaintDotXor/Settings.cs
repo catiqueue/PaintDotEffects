@@ -1,7 +1,5 @@
-﻿using catiqueue.PaintDotNet.Plugins.Common;
-using catiqueue.PaintDotNet.Plugins.Common.Data;
+﻿using catiqueue.PaintDotNet.Plugins.Common.Data;
 using catiqueue.PaintDotNet.Plugins.PaintDotXor.Types;
-using PaintDotNet.Rendering;
 
 namespace catiqueue.PaintDotNet.Plugins.PaintDotXor;
 

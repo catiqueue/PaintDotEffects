@@ -22,14 +22,14 @@ internal sealed class Plugin() : PropertyBasedBitmapEffect(Info.DisplayName, Inf
 
   internal enum PropertyNames { Zoom, Precision, Seed }
 
-  private void Render(RegionPtr<ColorBgra32> input, RegionPtr<ColorBgra32> output, Vector2I offset) {
+  private void Render(RegionPtr<ColorBgra32> input, RegionPtr<ColorBgra32> output, Vector<int> offset) {
     Settings.Deconstruct(out var seed, out var precision, out var zoom);
     for(int y = 0; y < output.Height && !IsCancelRequested; y++) {
       for(int x = 0; x < output.Width; x++) {
         // i'm really tired rn so i got lost in this code so i had to break it up like this to find my way out of this
         byte grayscale = (byte) Precision(
                           value: Cache[Array2DAccessTo1D(
-                            (new Vector2I(x, y) + offset) / zoom, 
+                            (new Vector<int>(x, y) + offset) / zoom, 
                             DocumentSize.Width)], 
                           maxValue: byte.MaxValue, 
                           precision);
@@ -47,7 +47,7 @@ internal sealed class Plugin() : PropertyBasedBitmapEffect(Info.DisplayName, Inf
     using var outputLock = output.LockBgra32();
     var outputRegion = outputLock.AsRegionPtr();
 
-    Render(sourceRegion, outputRegion, new Vector2I(outputLocation.X, outputLocation.Y));
+    Render(sourceRegion, outputRegion, new Vector<int>(outputLocation.X, outputLocation.Y));
   }
 
   protected override PropertyCollection OnCreatePropertyCollection() => new([

@@ -14,15 +14,15 @@ internal sealed class Plugin() : PropertyBasedBitmapEffect(Info.DisplayName, Plu
   private static readonly PluginSupportInfo Info = new();
   private Settings _settings = new();
 
-  private void Render(RegionPtr<ColorBgra32> input, RegionPtr<ColorBgra32> output, Vector2I offset) {
+  private void Render(RegionPtr<ColorBgra32> input, RegionPtr<ColorBgra32> output, Vector<int> offset) {
     _settings.Deconstruct(out var backgroundColor, out var firstColor, out var secondColor, out var spacer, out var size);
     
     for (int y = 0; y < output.Height && !IsCancelRequested; y++) {
       for (int x = 0; x < output.Width; x++) {
         // I can't remember why I'm adding ones everywhere
-        output[x, y] = Filter(new Vector2I(x + offset.X, y + offset.Y) / _settings.Size, _settings.Spacer + Vector2I.One)
-          ? IsJunction(new Vector2I(x + offset.X, y + offset.Y) / _settings.Size, _settings.Spacer + Vector2I.One)
-            ? IsLineEvenCombined(new Vector2I(x + offset.X, y + offset.Y) / _settings.Size, _settings.Spacer + Vector2I.One)
+        output[x, y] = Filter(new Vector<int>(x + offset.X, y + offset.Y) / _settings.Size, _settings.Spacer + Vector<int>.One)
+          ? IsJunction(new Vector<int>(x + offset.X, y + offset.Y) / _settings.Size, _settings.Spacer + Vector<int>.One)
+            ? IsLineEvenCombined(new Vector<int>(x + offset.X, y + offset.Y) / _settings.Size, _settings.Spacer + Vector<int>.One)
               ? _settings.FirstColor.GetSrgb()
               : _settings.SecondColor.GetSrgb()
             : IsLineActive((y + offset.Y) / _settings.Size.Y, _settings.Spacer.Y + 1)
@@ -42,7 +42,7 @@ internal sealed class Plugin() : PropertyBasedBitmapEffect(Info.DisplayName, Plu
     using var outputLock = output.LockBgra32();
     var outputRegion = outputLock.AsRegionPtr();
 
-    Render(sourceRegion, outputRegion, new Vector2I(outputLocation.X, outputLocation.Y));
+    Render(sourceRegion, outputRegion, new Vector<int>(outputLocation.X, outputLocation.Y));
   }
 
   protected override PropertyCollection OnCreatePropertyCollection() => new([
