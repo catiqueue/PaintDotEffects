@@ -4,6 +4,3 @@ obj/
 
 .idea/
 .vscode/
-
-# it's cool, but wasn't in a usable state (to be added later (or not))
-PaintDotGen/
