@@ -1,4 +1,6 @@
-﻿namespace catiqueue.PaintDotNet.Plugins.Common.Data;
+﻿using catiqueue.PaintDotNet.Plugins.Common.Data;
+
+namespace catiqueue.PaintDotNet.Plugins.Common.Rendering;
 
 public readonly record struct Camera(Vector<int> Offset, int Zoom) {
   public static Camera Default => new(Vector<int>.Zero, Zoom: 1);
