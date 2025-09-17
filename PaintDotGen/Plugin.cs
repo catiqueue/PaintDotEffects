@@ -9,9 +9,9 @@ using PaintDotNet.PropertySystem;
 
 namespace catiqueue.PaintDotNet.Plugins.PaintDotGen;
 
-internal enum PropertyNames { Seed, Complexity, ConstantRange, ImaginedCanvasRescaleFactor, Normalized, UseHsv }
-
 internal sealed class Plugin() : CpuRenderingPluginBase<Settings>(new PluginInfo()) {
+  internal enum PropertyNames { Seed, Complexity, ConstantRange, ImaginedCanvasRescaleFactor, Normalized, UseHsv }
+  
   private ExpressionContainer Expressions { get; } = new();
 
   protected override void OnPixelRender(IRenderingContext<ColorBgra32> context, Settings settings, Vector<int> position) 
