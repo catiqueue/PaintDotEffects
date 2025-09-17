@@ -1,5 +1,4 @@
 ﻿using System;
-using catiqueue.PaintDotNet.Plugins.PaintDotXor.Types;
 using PaintDotNet.Imaging;
 using Math = catiqueue.PaintDotNet.Plugins.Common.Math;
 
