@@ -4,6 +4,8 @@ using catiqueue.PaintDotNet.Plugins.Common.Data;
 namespace catiqueue.PaintDotNet.Plugins.PaintDotGen.Expressions.Basic;
 
 internal class ConstantGeneratorExpression(float constant) : IGeneratorExpression {
+  public static ConstantGeneratorExpression Zero { get; } = new(0f, Range<float>.Normalized);
+  
   public ConstantGeneratorExpression(float constant, Range<float> valueRange) : this(constant) => ValueRange = valueRange;
   public Range<float> ValueRange { get; } = Range<float>.FromSingleValue(constant);
   public float Evaluate(float x, float y) => constant;

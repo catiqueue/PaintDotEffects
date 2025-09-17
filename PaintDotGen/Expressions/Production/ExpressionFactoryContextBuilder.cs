@@ -61,4 +61,16 @@ internal sealed class ExpressionFactoryContextBuilder {
     
     return new ExpressionFactoryContext(options, parameters);
   }
+  
+  public static ExpressionFactoryContext BuildFromSettings(Settings settings, Size<int> canvasSize) 
+    => new ExpressionFactoryContextBuilder()
+      .FromSeed(settings.Seed)
+      .WithComplexity(settings.Complexity)
+      .WithConstantRange(Range<int>.FromNegative(settings.ConstantRange))
+      .WithCanvasSize(
+        (canvasSize.As<float>() 
+        * settings.RescaleFactor 
+        + 1f).As<int>())
+      .Normalize(settings.Normalized)
+      .Build();
 }

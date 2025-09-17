@@ -2,7 +2,7 @@
 
 namespace catiqueue.PaintDotNet.Plugins.PaintDotGen.Expressions.Production;
 
-internal sealed class ExpressionFactoryOptions {
+internal sealed record ExpressionFactoryOptions {
   public int Seed { get; set; }
   public int Complexity { get; set; }
   public int Level { get; set; }

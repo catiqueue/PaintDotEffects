@@ -20,7 +20,15 @@ public abstract class CpuRenderingPluginBase<TSettings>(PluginInfoBase info)
   private TSettings Settings { get; set; } = TSettings.Default;
   
   protected virtual void OnSettingsChanged(TSettings oldSettings, TSettings newSettings) { }
-  protected abstract void OnRender(IRenderingContext<ColorBgra32> context, TSettings settings);
+
+  protected virtual void OnRender(IRenderingContext<ColorBgra32> context, TSettings settings) {
+    for (int y = context.DrawingArea.Top; y < context.DrawingArea.Bottom && !IsCancelRequested; y++) {
+      for (int x = context.DrawingArea.Left; x < context.DrawingArea.Right; x++) {
+        OnPixelRender(context, settings, new Vector<int>(x, y));
+      }
+    }
+  }
+  protected virtual void OnPixelRender(IRenderingContext<ColorBgra32> context, TSettings settings, Vector<int> position) { }
 
   protected sealed override void OnRender(IBitmapEffectOutput output) {
     using var source = Environment.GetSourceBitmapBgra32();
