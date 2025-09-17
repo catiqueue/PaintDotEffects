@@ -24,18 +24,6 @@
     <NoWarn>1701;1702;CS7035;MSB3277</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoConstructor" Version="5.6.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="ComputeSharp.D2D1" Version="3.0.1" />
-    <PackageReference Include="ILRepack" Version="2.0.35">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NET.ILLink.Tasks" Version="9.0.0" />
-  </ItemGroup>
-  <ItemGroup>
     <!-- Be sure to set Private=False (aka CopyLocal=false) on the Paint.NET assemblies 
          so they are not copied to the output folder -->
     <Reference Include="PaintDotNet.Base">
@@ -88,23 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PaintDotCommon.FrameworkDependent\PaintDotCommon.FrameworkDependent.csproj" />
     <ProjectReference Include="..\PaintDotCommon\PaintDotCommon.csproj" />
   </ItemGroup>
-  <Target Name="TrimAndMerge" AfterTargets="PostBuildEvent" Condition="'$(ConfigurationName)' == 'Release'">
-    <!-- Nuget documentation for $(PkgPackage_Name) properties: https://learn.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files -->
-    
-    <!-- Trimming with ILLink -->
-    <Exec Command="dotnet exec &quot;$(PkgMicrosoft_NET_ILLink_Tasks)\tools\net9.0\illink.dll&quot; -a &quot;$(TargetPath)&quot; all --trim-mode copy --action copy -d $(TargetDir) --skip-unresolved --action link &quot;ComputeSharp.Core&quot; --action link &quot;ComputeShare.D2D1&quot; -out &quot;$(TargetDir)output&quot;" />
-    
-    <!-- Merge with ILRepack. -->
-    <Exec Command="&quot;$(PkgILRepack)\tools\ilrepack&quot; /internalize /union &quot;$(TargetDir)output\$(TargetName).dll&quot; &quot;$(TargetDir)output\ComputeSharp.Core.dll&quot; &quot;$(TargetDir)output\ComputeSharp.D2D1.dll&quot; /lib:&quot;$(PdnRoot)&quot; /out:&quot;$(TargetPath)&quot;" />
-    
-    <!-- Remove the output directory and its contents created by illink -->
-    <Delete Files="$(TargetDir)output" ContinueOnError="false" />
-    <RemoveDir Directories="$(TargetDir)output" ContinueOnError="false" />
-    
-    <!-- Remove ComputeSharp DLLs that are now merged -->
-    <Delete Files="$(TargetDir)ComputeSharp.Core.dll" ContinueOnError="false" />
-    <Delete Files="$(TargetDir)ComputeSharp.D2D1.dll" ContinueOnError="false" />
-  </Target>
 </Project>
