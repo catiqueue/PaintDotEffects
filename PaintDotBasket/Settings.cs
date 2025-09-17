@@ -1,14 +1,18 @@
 ﻿using catiqueue.PaintDotNet.Plugins.Common.Data;
+using catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+using PaintDotNet.Effects;
 using PaintDotNet.Imaging;
 
 namespace catiqueue.PaintDotNet.Plugins.PaintDotBasket;
 
-internal sealed record Settings {
+internal sealed record Settings : ISettings<Settings> {
+  public static Settings Default { get; } = new();
+  
   public ManagedColor BackgroundColor { get; init; } = ManagedColor.Create(SrgbColors.Black);
   public ManagedColor FirstColor { get; init; } = ManagedColor.Create(SrgbColors.Red);
   public ManagedColor SecondColor { get; init; } = ManagedColor.Create(SrgbColors.White);
   public Vector<int> Spacer { get; init; } = Vector<int>.One;
   public Vector<int> Size { get; init; } = Vector<int>.One;
-  public void Deconstruct(out ManagedColor backgroundColor, out ManagedColor firstColor, out ManagedColor secondColor, out Vector<int> spacer, out Vector<int> size) 
-    => (backgroundColor, firstColor, secondColor, spacer, size) = (BackgroundColor, FirstColor, SecondColor, Spacer, Size);
+  
+  public static Settings FromConfigToken(PropertyBasedEffectConfigToken token) => token.ToSettings();
 }
