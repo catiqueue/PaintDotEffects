@@ -1,4 +1,5 @@
-﻿using PaintDotNet.Effects;
+﻿using catiqueue.PaintDotNet.Plugins.PaintDotGen.Expressions;
+using PaintDotNet.Effects;
 using PaintDotNet.IndirectUI;
 using PaintDotNet.PropertySystem;
 
@@ -12,7 +13,7 @@ internal static class PluginExtensions {
     new Int32Property(Plugin.PropertyNames.ConstantRange, Settings.Default.ConstantRange, 128, 16384),
     new DoubleProperty(Plugin.PropertyNames.ImaginedCanvasRescaleFactor, Settings.Default.RescaleFactor, 1d, 128d),
     new BooleanProperty(Plugin.PropertyNames.Normalized, Settings.Default.Normalized),
-    new BooleanProperty(Plugin.PropertyNames.UseHsv, Settings.Default.UseHsv),
+    StaticListChoiceProperty.CreateForEnum(Plugin.PropertyNames.Interpreter, ExpressionInterpreterChoice.HSV, false),
   ]);
   
   public static ControlInfo GetDefaultConfigUI(this Plugin plugin, PropertyCollection properties) {
@@ -23,7 +24,7 @@ internal static class PluginExtensions {
     configUi.SetPropertyControlValue(Plugin.PropertyNames.ConstantRange, ControlInfoPropertyNames.DisplayName, "Constant value range (-X, X)");
     configUi.SetPropertyControlValue(Plugin.PropertyNames.ImaginedCanvasRescaleFactor, ControlInfoPropertyNames.DisplayName, "Scale factor (doesn't affect performance)");
     configUi.SetPropertyControlValue(Plugin.PropertyNames.Normalized, ControlInfoPropertyNames.DisplayName, "Normalize input values (mostly smooth results)");
-    configUi.SetPropertyControlValue(Plugin.PropertyNames.UseHsv, ControlInfoPropertyNames.DisplayName, "Use HSV color interpretation instead of RGB");
+    configUi.SetPropertyControlValue(Plugin.PropertyNames.Interpreter, ControlInfoPropertyNames.DisplayName, "Interpreter (grayscale only reads the alpha channel)");
 
     return configUi;
   }
@@ -34,6 +35,6 @@ internal static class PluginExtensions {
     Normalized = token.GetProperty<BooleanProperty>(Plugin.PropertyNames.Normalized)!.Value,
     ConstantRange = token.GetProperty<Int32Property>(Plugin.PropertyNames.ConstantRange)!.Value,
     RescaleFactor = (float) token.GetProperty<DoubleProperty>(Plugin.PropertyNames.ImaginedCanvasRescaleFactor)!.Value,
-    UseHsv = token.GetProperty<BooleanProperty>(Plugin.PropertyNames.UseHsv)!.Value,
+    Interpreter = ExpressionInterpreters.FromChoice((ExpressionInterpreterChoice) token.GetProperty<StaticListChoiceProperty>(Plugin.PropertyNames.Interpreter)!.Value)
   };
 }

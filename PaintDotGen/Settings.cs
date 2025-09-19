@@ -1,10 +1,19 @@
 ﻿using catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+using catiqueue.PaintDotNet.Plugins.PaintDotGen.Expressions;
 using PaintDotNet.Effects;
 
 namespace catiqueue.PaintDotNet.Plugins.PaintDotGen;
 
-internal readonly record struct Settings(int Seed, int Complexity, bool Normalized = false, int ConstantRange = 1024, float RescaleFactor = 1f, bool UseHsv = true) : ISettings<Settings> {
-  public static Settings Default { get; } = new(-1, 4);
+internal record Settings : ISettings<Settings> {
+  public static Settings Default { get; } = new();
+  
+  public int Seed { get; init; } = 0;
+  public int Complexity { get; init; } = 4;
+  public bool Normalized { get; init; } = false;
+  public int ConstantRange { get; init; } = 1024;
+  public float RescaleFactor { get; init; } = 1f;
+  public ExpressionInterpreter Interpreter { get; init; } = ExpressionInterpreters.HSVInterpreter;
+
   public static Settings FromConfigToken(PropertyBasedEffectConfigToken token) 
     => token.ToSettings();
 };

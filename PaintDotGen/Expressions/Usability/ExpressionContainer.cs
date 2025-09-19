@@ -14,9 +14,14 @@ internal sealed class ExpressionContainer {
   public IGeneratorExpression V => B;
   
   public void Regenerate(ExpressionFactoryContext context) {
-    R = ExpressionFactory.CreateExpression(context);
-    G = ExpressionFactory.CreateExpression(context);
-    B = ExpressionFactory.CreateExpression(context);
-    A = ExpressionFactory.CreateExpression(context);
+    R = ExpressionFactory.CreateExpression(context.XorSeed(0x55555555));
+    G = ExpressionFactory.CreateExpression(context.XorSeed(0x33333333));
+    B = ExpressionFactory.CreateExpression(context.XorSeed(0x0F0F0F0F));
+    A = ExpressionFactory.CreateExpression(context.XorSeed(0x00FF00FF));
   }
+}
+
+file static class Extensions {
+  public static ExpressionFactoryContext XorSeed(this ExpressionFactoryContext context, int value) 
+    => new(context.Options with { Seed = context.Options.Seed ^ value }, context.Parameters);
 }
