@@ -43,6 +43,8 @@ internal static class Extensions {
     configUi.FindControlForPropertyName(Plugin.PropertyNames.Operation)!.SetValueDisplayName(OperationChoice.XOR, "XOR");
     configUi.FindControlForPropertyName(Plugin.PropertyNames.Operation)!.SetValueDisplayName(OperationChoice.AND, "AND");
     configUi.FindControlForPropertyName(Plugin.PropertyNames.Operation)!.SetValueDisplayName(OperationChoice.OR, "OR");
+    configUi.FindControlForPropertyName(Plugin.PropertyNames.Operation)!.SetValueDisplayName(OperationChoice.BitReversedXOR, "Bit reversed XOR");
+    configUi.FindControlForPropertyName(Plugin.PropertyNames.Operation)!.SetValueDisplayName(OperationChoice.GrayCodeXOR, "Gray encoded XOR");
 
     configUi.SetPropertyControlValue(Plugin.PropertyNames.UseHSV, ControlInfoPropertyNames.DisplayName, "");
     configUi.SetPropertyControlValue(Plugin.PropertyNames.UseHSV, ControlInfoPropertyNames.Description, "Use HSV conversion");

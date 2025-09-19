@@ -1,4 +1,5 @@
 ﻿using System;
+using catiqueue.PaintDotNet.Plugins.Common;
 using PaintDotNet.Imaging;
 using Math = catiqueue.PaintDotNet.Plugins.Common.Math;
 
@@ -21,11 +22,17 @@ internal static class OperationFactory {
   public static Operation XOR => pos => pos.X ^ pos.Y;
   public static Operation AND => pos => pos.X & pos.Y;
   public static Operation OR => pos => pos.X | pos.Y;
-
+    
+  public static Operation BitReversedXOR => pos => (int) BitMath.BitReverse((uint) (pos.X ^ pos.Y));
+  public static Operation GrayCodeXOR => pos => (int) BitMath.ToGrayCode((uint) (pos.X ^ pos.Y));
+  
   public static Operation FromChoice(OperationChoice choice) => choice switch {
     OperationChoice.XOR => XOR,
     OperationChoice.AND => AND,
     OperationChoice.OR => OR,
+    
+    OperationChoice.BitReversedXOR => BitReversedXOR,
+    OperationChoice.GrayCodeXOR => GrayCodeXOR,
     _ => throw new ArgumentOutOfRangeException(nameof(choice), "Unknown operation choice")
   };
 }
