@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintDotBasket", "PaintDotB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaintDotEca", "PaintDotEca", "{C087F92B-671A-EA2B-AFE0-10FFB0E298A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LolK.PaintDotNet.Plugins.PaintDotEca", "PaintDotEca\LolK.PaintDotNet.Plugins.PaintDotEca.csproj", "{687262E0-821E-4FA1-9D44-DC6F222C1263}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintDotEca", "PaintDotEca\PaintDotEca.csproj", "{687262E0-821E-4FA1-9D44-DC6F222C1263}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintDotGen", "PaintDotGen\PaintDotGen.csproj", "{41CC9D1D-734C-42B7-B845-D11F745299F9}"
 EndProject

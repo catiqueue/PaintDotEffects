@@ -6,24 +6,13 @@ using PaintDotNet.Imaging;
 namespace catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
 
 public sealed class CpuRenderingContext<TPixel>(
-  RegionPtr<TPixel> source, RegionPtr<TPixel> output, Vector<int> outputBlockOffset) 
-  : IRenderingContext<TPixel> 
+  RegionPtr<TPixel> sourceRegion, RegionPtr<TPixel> destinationRegion, Vector<int> outputBlockOffset) : IRenderingContext<TPixel> 
   where TPixel : unmanaged, INaturalPixelInfo 
 {
-  public Bounds<int> DrawingArea { get; } = new(outputBlockOffset, new Size<int>(output.Width, output.Height));
-  public Bounds<int> RealArea { get; } = new(Vector<int>.Zero, new Size<int>(source.Width, source.Height));
+  public IReadonlyCanvas<TPixel> Source { get; } = new RegionPtrWrapper<TPixel>(sourceRegion, Vector<int>.Zero);
+  public ICanvas<TPixel> Destination { get; } = new RegionPtrWrapper<TPixel>(destinationRegion, outputBlockOffset);
   
-  public void DrawFromSource(Vector<int> pos) {
-    if(!DrawingArea.Contains(pos)) throw new System.ArgumentOutOfRangeException(nameof(pos));
-    Draw(pos, Read(pos));
-  }
-
-  public void Draw(Vector<int> pos, TPixel value) {
-    if(!DrawingArea.Contains(pos)) throw new System.ArgumentOutOfRangeException(nameof(pos));
-    output[pos.X - DrawingArea.Position.X, pos.Y - DrawingArea.Position.Y] = value;
-  }
-
-  public TPixel Read(Vector<int> pos) => DrawingArea.Contains(pos)
-      ? source[pos.X, pos.Y]
-      : throw new System.ArgumentOutOfRangeException(nameof(pos));
+  public void DrawFromSource(Vector<int> pos) => Destination[pos] = Source[pos];
+  public void Draw(Vector<int> pos, TPixel value) => Destination[pos] = value;
+  public TPixel Read(Vector<int> pos) => Source[pos];
 }

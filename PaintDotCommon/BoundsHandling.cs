@@ -1,9 +1,16 @@
-﻿namespace catiqueue.PaintDotNet.Plugins.Common;
+﻿using catiqueue.PaintDotNet.Plugins.Common.Data;
+
+namespace catiqueue.PaintDotNet.Plugins.Common;
 
 
 public enum BoundsHandlingMode { None = 0, Clamp, Wrap, Mirror }
 
+// I think, this class can be generic, but it's not a priority rn.
 public static class BoundsHandling {
+
+  public static Vector<int> HandleFor(Vector<int> pos, Size<int> bounds, BoundsHandlingMode mode)
+    => new(HandleFor(bounds.Width, pos.X, mode), HandleFor(bounds.Height, pos.Y, mode));
+  
   public static int HandleFor(int length, int index, BoundsHandlingMode mode) => mode switch {
     BoundsHandlingMode.Clamp => Clamp(length, index),
     BoundsHandlingMode.Wrap => Wrap(length, index),

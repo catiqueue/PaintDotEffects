@@ -25,8 +25,8 @@ internal sealed class Plugin() : CpuRenderingPluginBase<Settings>(new PluginInfo
     context.Draw(position, new ColorGray8(grayscale));
   }
 
-  protected override void OnSettingsChanged(Settings oldSettings, Settings newSettings) {
-    if (newSettings.Seed == oldSettings.Seed) return;
+  protected override void OnSettingsChanged(Settings oldSettings, Settings newSettings, bool firstChange) {
+    if (newSettings.Seed == oldSettings.Seed && !firstChange) return;
     
     var rng = new Random(InstanceSeed ^ newSettings.Seed);
     if (Environment.Document.Size.Area > Cache.Length) {

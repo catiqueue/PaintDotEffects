@@ -2,9 +2,12 @@
 
 namespace catiqueue.PaintDotNet.Plugins.Common.Rendering;
 
-public interface IRenderingContext<TPixel> {
-  Bounds<int> DrawingArea { get; }
-  Bounds<int> RealArea { get; }
+public interface IRenderingContext<TPixel> where TPixel : struct {
+  Bounds<int> DrawingArea => Destination.Bounds;
+  Bounds<int> RealArea => Source.Bounds; 
+
+  IReadonlyCanvas<TPixel> Source { get; }
+  ICanvas<TPixel> Destination { get; }
   
   // absolute coordinate access
   void DrawFromSource(Vector<int> pos);

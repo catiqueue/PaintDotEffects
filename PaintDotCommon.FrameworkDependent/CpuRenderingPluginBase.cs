@@ -17,9 +17,8 @@ public abstract class CpuRenderingPluginBase<TSettings>(PluginInfoBase info)
     , IPluginSupportInfoProvider 
   where TSettings : ISettings<TSettings> 
 {
-  private TSettings Settings { get; set; } = TSettings.Default;
-  
-  protected virtual void OnSettingsChanged(TSettings oldSettings, TSettings newSettings) { }
+  private TSettings _settings = TSettings.Default;
+  private bool _settingsUpdateHappened = false; 
 
   protected virtual void OnRender(IRenderingContext<ColorBgra32> context, TSettings settings) {
     for (int y = context.DrawingArea.Top; y < context.DrawingArea.Bottom && !IsCancelRequested; y++) {
@@ -39,14 +38,17 @@ public abstract class CpuRenderingPluginBase<TSettings>(PluginInfoBase info)
     using var outputLock = output.LockBgra32();
     var outputRegion = outputLock.AsRegionPtr();
     
-    OnRender(new CpuRenderingContext<ColorBgra32>(sourceRegion, outputRegion,  new Vector<int>(outputLocation.X, outputLocation.Y)), Settings);
+    OnRender(new CpuRenderingContext<ColorBgra32>(sourceRegion, outputRegion,  new Vector<int>(outputLocation.X, outputLocation.Y)), _settings);
   }
-
+  
+  protected virtual void OnSettingsChanged(TSettings oldSettings, TSettings newSettings, bool firstChange) { }
+  
   protected sealed override void OnSetToken(PropertyBasedEffectConfigToken? newToken) {
     if(newToken is null) return;
     var newSettings = TSettings.FromConfigToken(newToken);
-    OnSettingsChanged(Settings, newSettings);
-    Settings = newSettings;
+    OnSettingsChanged(_settings, newSettings, !_settingsUpdateHappened);
+    _settings = newSettings;
+    if(!_settingsUpdateHappened) _settingsUpdateHappened = true;
   }
 
   // help screen setup
