@@ -3,11 +3,10 @@
 namespace catiqueue.PaintDotNet.Plugins.Common;
 
 
-public enum BoundsHandlingMode { None = 0, Clamp, Wrap, Mirror }
+public enum BoundsHandlingMode { Clamp, Wrap, Mirror }
 
-// I think, this class can be generic, but it's not a priority rn.
 public static class BoundsHandling {
-
+  
   public static Vector<int> HandleFor(Vector<int> pos, Size<int> bounds, BoundsHandlingMode mode)
     => new(HandleFor(bounds.Width, pos.X, mode), HandleFor(bounds.Height, pos.Y, mode));
   
@@ -31,6 +30,6 @@ public static class BoundsHandling {
     return mod < length ? mod : FlipAroundCenter(period, mod);
   }
   
-  public static int FlipAroundCenter(int length, int value) 
-    => length - 1 - value;
+  public static int FlipAroundCenter(int length, int index) 
+    => length - 1 - index;
 }

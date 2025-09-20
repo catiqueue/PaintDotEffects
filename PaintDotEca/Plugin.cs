@@ -31,11 +31,8 @@ internal sealed class Plugin() : CpuRenderingPluginBase<Settings>(new PluginInfo
     var sourceRegion = sourceLock.AsRegionPtr();
     var wrapper = new RegionPtrWrapper<ColorBgra32>(sourceRegion, Vector<int>.Zero);
     var converter = new EcaConvertingCanvasReader(wrapper, newSettings.Activator);
-    
-    _eca = new EcaMachine(converter) {
-      Rule = newSettings.Rule,
-      BoundsHandler = newSettings.BoundsHandler
-    };
+
+    _eca = new EcaMachine(converter, newSettings.Rule, newSettings.BoundsHandler);
   }
 
   protected override PropertyCollection OnCreatePropertyCollection()

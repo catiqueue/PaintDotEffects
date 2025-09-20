@@ -7,7 +7,7 @@ internal record Settings: ISettings<Settings> {
   public static Settings Default { get; } = new();
   
   public byte Rule { get; init; } = 30;
-  public BoundsHandlingAction BoundsHandler { get; init; } = BoundsHandlingAction.ReturnOne;
+  public EcaBoundsHandlingMode BoundsHandler { get; init; } = EcaBoundsHandlingMode.ReturnOne;
   public bool RespectSourceColor { get; init; } = true;
   public EcaPointDescriptorPainter Painter { get; init; } = EcaPointDescriptorPainters.DefaultPalette;
   public EcaPointActivator Activator { get; init; } = EcaPointActivators.CreateTransparencyActivator(128);
