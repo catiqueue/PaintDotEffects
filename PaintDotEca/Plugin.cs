@@ -9,21 +9,21 @@ using PaintDotNet.PropertySystem;
 namespace catiqueue.PaintDotNet.Plugins.PaintDotEca;
 
 internal sealed class Plugin() : CpuRenderingPluginBase<Settings>(new PluginInfo()) {
-  internal enum PropertyNames { MaxWidth, Generations, Rule, BoundsHandling, Zoom, UseRtC, Color }
+  internal enum PropertyNames { Rule, BoundsHandling, Painter, RespectSourceColor, Activator, ActivatorThreshold }
 
   private EcaMachine _eca = null!;
 
   protected override void OnPixelRender(IRenderingContext<ColorBgra32> context, Settings settings, Vector<int> position) {
     _eca.Read(position).Deconstruct(out var descriptor, out var isActive);
-    context.Draw(position, isActive 
-      ? descriptor == EcaPointDescriptor.Pregenerated && settings.RespectSourceColor 
-        ? context.Read(position) 
-        : settings.Painter(descriptor) 
-      : ColorBgra32.FromUInt32(uint.MinValue));
+    if (!isActive || (descriptor == EcaPointDescriptor.Pregenerated && settings.RespectSourceColor))
+      context.DrawFromSource(position);
+    else
+      context.Draw(position, settings.Painter(descriptor));
   }
 
   protected override void OnSettingsChanged(Settings oldSettings, Settings newSettings, bool firstChange) {
-    if (oldSettings.Rule == newSettings.Rule && oldSettings.BoundsHandler == newSettings.BoundsHandler && !firstChange)
+    if (oldSettings.Rule == newSettings.Rule && oldSettings.BoundsHandler == newSettings.BoundsHandler &&
+        oldSettings.Activator == newSettings.Activator && !firstChange)
       return;
     
     using var source = Environment.GetSourceBitmapBgra32();

@@ -5,7 +5,7 @@ using static catiqueue.PaintDotNet.Plugins.Common.BoundsHandling;
 
 namespace catiqueue.PaintDotNet.Plugins.PaintDotEca;
 
-internal enum EcaBoundsHandlingMode { Clamp, Wrap, Mirror, ReturnZero, ReturnOne }
+internal enum EcaBoundsHandlingMode { Clamp, Wrap, ReturnZero, ReturnOne }
 
 internal class EcaBoundsHandlingCanvasReader(IReadonlyCanvas<EcaPoint> source, EcaBoundsHandlingMode mode) : IReadonlyCanvas<EcaPoint> {
   public Bounds<int> Bounds => source.Bounds;
