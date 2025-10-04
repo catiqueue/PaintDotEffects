@@ -2,7 +2,7 @@
 using catiqueue.PaintDotNet.Plugins.Common.Rendering;
 using PaintDotNet;
 
-namespace catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+namespace catiqueue.PaintDotNet.Plugins.Common;
 
 public class RegionPtrWrapper<T>(RegionPtr<T> region, Vector<int> regionOffset) : ICanvas<T> where T : unmanaged {
   public Bounds<int> Bounds { get; } = new(regionOffset, new Size<int>(region.Width, region.Height));

@@ -6,7 +6,7 @@
     </PropertyGroup>
     <PropertyGroup>
         <TargetFramework>net9.0-windows</TargetFramework>
-        <RootNamespace>catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent</RootNamespace>
+        <RootNamespace>catiqueue.PaintDotNet.Plugins.Common</RootNamespace>
         <Nullable>enable</Nullable>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
         <UseWindowsForms>true</UseWindowsForms>

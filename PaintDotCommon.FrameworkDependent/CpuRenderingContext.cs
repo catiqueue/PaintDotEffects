@@ -3,7 +3,7 @@ using catiqueue.PaintDotNet.Plugins.Common.Rendering;
 using PaintDotNet;
 using PaintDotNet.Imaging;
 
-namespace catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+namespace catiqueue.PaintDotNet.Plugins.Common;
 
 public sealed class CpuRenderingContext<TPixel>(
   RegionPtr<TPixel> sourceRegion, RegionPtr<TPixel> destinationRegion, Vector<int> outputBlockOffset) : IRenderingContext<TPixel> 

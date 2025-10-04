@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using System;
 using catiqueue.PaintDotNet.Plugins.Common.Data;
 using catiqueue.PaintDotNet.Plugins.Common.Rendering;
 using PaintDotNet;
@@ -7,16 +7,16 @@ using PaintDotNet.Imaging;
 using PaintDotNet.IndirectUI;
 using PaintDotNet.PropertySystem;
 
-namespace catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+namespace catiqueue.PaintDotNet.Plugins.Common;
 
+[Obsolete("This will be replaced")]
 [PluginSupportInfo(typeof(CpuRenderingPluginBase<>))]
 public abstract class CpuRenderingPluginBase<TSettings>(PluginInfoBase info) 
     // Paint.NET handles null image argument deep inside the call chain,
     // even though this concrete constructor doesn't think so
   : PropertyBasedBitmapEffect(info.DisplayName, info.Image!, info.SubMenu, BitmapEffectOptionsFactory.Create() with { IsConfigurable = true })
-    , IPluginSupportInfoProvider 
-  where TSettings : ISettings<TSettings> 
-{
+  , IPluginSupportInfoProvider 
+  where TSettings : class, ISettings<TSettings> {
   private TSettings _settings = TSettings.Default;
   private bool _settingsUpdateHappened = false; 
 

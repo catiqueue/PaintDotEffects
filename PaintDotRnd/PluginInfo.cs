@@ -1,4 +1,4 @@
-﻿using catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+﻿using catiqueue.PaintDotNet.Plugins.Common;
 using PaintDotNet.Effects;
 
 namespace catiqueue.PaintDotNet.Plugins.PaintDotRnd;

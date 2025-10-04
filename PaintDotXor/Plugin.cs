@@ -1,5 +1,5 @@
-﻿using catiqueue.PaintDotNet.Plugins.Common.Data;
-using catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+﻿using catiqueue.PaintDotNet.Plugins.Common;
+using catiqueue.PaintDotNet.Plugins.Common.Data;
 using catiqueue.PaintDotNet.Plugins.Common.Rendering;
 using PaintDotNet.Imaging;
 using PaintDotNet.IndirectUI;

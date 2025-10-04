@@ -1,4 +1,4 @@
-﻿using catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+﻿using catiqueue.PaintDotNet.Plugins.Common;
 using catiqueue.PaintDotNet.Plugins.PaintDotGen.Expressions;
 using PaintDotNet.Effects;
 

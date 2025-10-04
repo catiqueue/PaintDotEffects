@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using PaintDotNet;
 
-namespace catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent;
+namespace catiqueue.PaintDotNet.Plugins.Common;
 
 public abstract record PluginInfoBase : IPluginSupportInfo {
   public abstract string DisplayName { get; }
