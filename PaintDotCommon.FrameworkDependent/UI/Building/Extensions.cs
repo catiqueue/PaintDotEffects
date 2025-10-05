@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Binding;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Building.Base;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building;

@@ -1,11 +1,11 @@
 ﻿using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 
-namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building;
+namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building.Base;
 
-public abstract class UiBuilderBase< /*TSettings,*/TSettings, TParent, TSelf, TResult>(PluginUiBehaviorBuilder<TSettings> root, TParent parent)
-  : INodeBuilder</*TSettings,*/ TResult>
+public abstract class UiBuilderBase<TSettings, TParent, TSelf, TResult>(PluginUiBehaviorBuilder<TSettings> root, TParent parent)
+  : INodeBuilder<TResult>
   where TResult : UiNodeBase 
-  where TSettings : class //<TSettings>
+  where TSettings : class
   where TSelf : UiBuilderBase<TSettings, TParent, TSelf, TResult>
 {
   private TResult? _result;
@@ -21,7 +21,7 @@ public abstract class UiBuilderBase< /*TSettings,*/TSettings, TParent, TSelf, TR
     return (TSelf) this;
   }
 
-  public abstract TResult Build();
+  protected abstract TResult Build();
 
   public TParent Then() {
     _result ??= Build();  

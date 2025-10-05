@@ -78,8 +78,4 @@
     <ItemGroup>
         <ProjectReference Include="..\PaintDotCommon\PaintDotCommon.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="UI\Building\Base\" />
-      <Folder Include="UI\Building\Values\" />
-    </ItemGroup>
 </Project>

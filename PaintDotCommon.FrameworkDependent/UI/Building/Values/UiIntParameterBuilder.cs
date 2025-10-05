@@ -1,11 +1,13 @@
 ﻿using catiqueue.PaintDotNet.Plugins.Common.Data;
 using catiqueue.PaintDotNet.Plugins.Common.Exceptions;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Building.Base;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 using PaintDotNet.IndirectUI;
 
-namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building;
+namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building.Values;
 
-public sealed class UiIntParameterBuilder<TSettings, TParent> : UiValueBuilderBase<TSettings, TParent, UiIntParameterBuilder<TSettings, TParent>, IntNode/*<TSettings>*/, int> 
+public sealed class UiIntParameterBuilder<TSettings, TParent> 
+  : UiValueBuilderBase<TSettings, TParent, UiIntParameterBuilder<TSettings, TParent>, IntNode, int> 
   where TSettings : class
 {
   private Range<int>? _valueRange;
@@ -21,13 +23,11 @@ public sealed class UiIntParameterBuilder<TSettings, TParent> : UiValueBuilderBa
     _valueRange = valueRange;
     return DefaultSet ? this : WithDefault(valueRange.Start);
   }
-  
-  public override IntNode/*<TSettings>*/ Build() => new(
+
+  protected override IntNode Build() => new(
     Name,
     DefaultValue,
     ValueRange,
     Configuration,
-    ControlType
-    /* TriggersRebuild,
-    Selector */);
+    ControlType);
 }

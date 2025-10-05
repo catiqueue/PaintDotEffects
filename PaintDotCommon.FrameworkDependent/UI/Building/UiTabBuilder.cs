@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using catiqueue.PaintDotNet.Plugins.Common.Exceptions;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Building.Base;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 using PaintDotNet.IndirectUI;
 
@@ -9,8 +10,8 @@ public sealed class UiTabBuilder<TSettings, TParent> : UiContainerBuilderBase<TS
   where TSettings : class 
 {
   internal UiTabBuilder(PluginUiBehaviorBuilder<TSettings> root, TParent parent) : base(root, parent) { }
-  
-  public override TabNode Build() => new(
+
+  protected override TabNode Build() => new(
     Name ?? throw new IncompleteDefinitionException(
       nameof(UiTabBuilder<TSettings, TParent>), 
       nameof(Name)), 

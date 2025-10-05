@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Building.Base;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building;
@@ -16,6 +17,6 @@ public sealed class UiTabsetBuilder<TSettings, TParent> : UiBuilderBase<TSetting
     _tabs.Add(tab);
     return tab;
   }
-  
-  public override TabsetNode Build() => new(Name, _tabs.Select(tab => tab.Result));
+
+  protected override TabsetNode Build() => new(Name, _tabs.Select(tab => tab.Result));
 }

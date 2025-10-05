@@ -24,10 +24,10 @@ public sealed class PluginUiBehaviorBuilder<TSettings>
   
   internal PluginUiBehaviorBuilder() {  }
   
-  public UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>> FromPanel() 
+  public UiPanelBuilder<TSettings, PluginUiBehaviorBuilder<TSettings>> FromPanel() 
     => _rootBuilder is null
-      ? (UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>>)
-        (_rootBuilder = new UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>>(this, this).WithName("Root"))
+      ? (UiPanelBuilder<TSettings, PluginUiBehaviorBuilder<TSettings>>)
+        (_rootBuilder = new UiPanelBuilder<TSettings, PluginUiBehaviorBuilder<TSettings>>(this, this).WithName("Root"))
       : throw new MutuallyExclusiveException(nameof(FromPanel), nameof(FromTabset));
 
   public UiTabsetBuilder<TSettings, PluginUiBehaviorBuilder<TSettings>> FromTabset() {

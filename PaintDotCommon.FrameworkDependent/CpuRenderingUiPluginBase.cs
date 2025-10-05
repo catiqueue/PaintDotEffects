@@ -6,13 +6,11 @@ using catiqueue.PaintDotNet.Plugins.Common.Exceptions;
 using catiqueue.PaintDotNet.Plugins.Common.Rendering;
 using catiqueue.PaintDotNet.Plugins.Common.UI;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Building;
-using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 using PaintDotNet;
 using PaintDotNet.Effects;
 using PaintDotNet.Imaging;
 using PaintDotNet.IndirectUI;
 using PaintDotNet.PropertySystem;
-// using catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent.UI.Building;
 
 namespace catiqueue.PaintDotNet.Plugins.Common;
 
@@ -90,11 +88,8 @@ public abstract class CpuRenderingUiPluginBase<TSettings>
     Debug.WriteLine("OnCreateConfigUI");
     return UiModel.GetControl(props);
   }
-
-  // help screen setup
+  
   protected sealed override void OnCustomizeConfigUIWindowProperties(PropertyCollection props)
-    // let's see if the plaintext is default
-    // props[ControlInfoPropertyNames.WindowHelpContentType]!.Value = WindowHelpContentType.PlainText;
     => props[ControlInfoPropertyNames.WindowHelpContent]!.Value = string.Format(
       _info.Culture, 
       "{0}\n{1} v{2}\n{3}\nAll rights reserved.", 

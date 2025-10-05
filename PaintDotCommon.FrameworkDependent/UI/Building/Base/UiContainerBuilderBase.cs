@@ -1,18 +1,19 @@
 using System.Collections.Generic;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Building.Values;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 using PaintDotNet.IndirectUI;
 
-namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building;
+namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building.Base;
 
 public abstract class UiContainerBuilderBase<TSettings, TParent, TResult, TControl, TSelf>(PluginUiBehaviorBuilder<TSettings> root, TParent parent)
   : UiBuilderBase<TSettings, TParent, TSelf, TResult>(root, parent)
   where TControl : ControlInfo
-  where TResult : ContainerNodeBase<TControl>/*<TSettings>*/
+  where TResult : ContainerNodeBase<TControl>
   where TSelf : UiContainerBuilderBase<TSettings, TParent, TResult, TControl, TSelf>
   where TSettings : class
 {
-  private readonly List<INodeBuilder</*TSettings,*/ UiNodeBase/*<TSettings>*/>> _items = [];
-  protected IEnumerable<INodeBuilder</*TSettings,*/ UiNodeBase/*<TSettings>*/>> Items => _items;
+  private readonly List<INodeBuilder<UiNodeBase>> _items = [];
+  protected IEnumerable<INodeBuilder<UiNodeBase>> Items => _items;
 
   public UiIntParameterBuilder<TSettings, TSelf> WithInt() {
     var builder = new UiIntParameterBuilder<TSettings, TSelf>(Root, (TSelf) this);
