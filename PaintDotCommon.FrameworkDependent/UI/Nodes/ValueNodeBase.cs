@@ -15,7 +15,7 @@ public abstract class ValueNodeBase</*TSettings,*/ TValue>(string name, TValue d
   // protected bool TriggersRebuild { get; } = triggersRebuild;
 
   protected abstract Property ToProperty();
-  internal override IEnumerable<Property> GetProperties() => new[] { ToProperty() };
+  internal sealed override IEnumerable<Property> GetProperties() => new[] { ToProperty() };
 
   // public sealed override IEnumerable<Binder<TSettings>> GetBindings() => Selector is not null ? [Binder.CreateDirect(Name, Selector)] : [];
   // public sealed override IEnumerable<string> GetTriggeringPropertyNames() => TriggersRebuild ? [Name] : [];
@@ -29,7 +29,8 @@ public abstract class ValueNodeBase</*TSettings,*/ TValue>(string name, TValue d
 
   // private PropertyControlType _type = PropertyControlType.Null;
   // public void SetType(PropertyControlType type) => _type = type;
+  protected virtual ControlInfo OnBuildControl(PropertyControlInfo control) => control;
 
   internal sealed override ControlInfo BuildControl(PropertyCollection properties) 
-    => properties.GetProperty(Name).CreateControl().ApplyConfiguration(configuration).SetType(controlType);
+    => OnBuildControl(properties.GetProperty(Name).CreateControl().ApplyConfiguration(configuration).SetType(controlType));
 }

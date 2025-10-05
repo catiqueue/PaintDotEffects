@@ -26,10 +26,12 @@ internal sealed class Plugin() : CpuRenderingUiPluginBase<Settings>(new PluginIn
   }
 
   protected override PluginUiBehaviorModel<Settings> OnModelCreating(PluginUiBehaviorBuilder<Settings> behaviorBuilder) =>
-    behaviorBuilder.FromPanel()
-      .AddInt().BindTo(x => x.Seed).WithValueRange(new(int.MinValue, int.MaxValue)).ChangeTriggersRebuild().Then()
-      .AddInt().BindTo(x => x.Zoom).WithValueRange(new(1, 128)).Then()
-      .AddInt().BindTo(x => x.Precision).WithValueRange(new(2, 32)).End()
+    behaviorBuilder.FromTabset().BindPageNumberTo(x => x.Zoom)
+      .WithTab("Seed")
+        .WithInt().BindTo(x => x.Seed).WithValueRange(new(int.MinValue, int.MaxValue)).ChangeTriggersRebuild().Then().Then()
+      .WithTab("Visual")
+        .WithInt()/* .BindTo(x => x.Zoom) */.WithValueRange(new(1, 128)).Then()
+        .WithChoiceList<int>().BindTo(x => x.Precision).WithChoice(2, "Binary").WithChoice(256, "Full Spectrum").End()
       .Build();
 
   protected override void OnRegenerationRequired(Settings settings) {

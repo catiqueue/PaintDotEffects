@@ -27,7 +27,7 @@ public sealed class TabsetNode/*<TSettings>*/(string? name, IEnumerable<TabNode/
 
   internal override ControlInfo BuildControl(PropertyCollection properties) {
     var tabControls = tabs.Select(tab => (TabPageControlInfo) tab.BuildControl(properties));
-    var tabset = new TabContainerControlInfo((TabContainerStateProperty) properties.GetProperty(Name));
+    var tabset = new TabContainerControlInfo(properties.GetProperty<TabContainerStateProperty>(Name));
     foreach (var tab in tabControls) tabset.AddTab(tab);
     return tabset;
   }

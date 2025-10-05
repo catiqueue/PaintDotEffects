@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
+using PaintDotNet.IndirectUI;
 using PaintDotNet.PropertySystem;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Binding;
@@ -13,6 +14,21 @@ internal static class Binder {
     Setter<TSettings, TTarget> setter) 
     where TSettings: class 
     => (settings, properties) => setter(settings, properties.GetPropertyValue<TTarget>(node.Name));
+
+  // If this keeps happening, I'll start to accept UiNodeBase directly.
+  // For now, having a separate function will suffice
+  public static Binder<TSettings> CreateForTabNumber<TSettings>(
+    TabsetNode tabset,
+    Setter<TSettings, int> setter) 
+    => (settings, properties) 
+      => setter(settings, properties.GetPropertyValue<TabContainerState>(tabset.Name).SelectedTabIndex + 1);
+
+  public static Binder<TSettings> CreateMutating<TSettings, TValue, TTarget>(
+    ValueNodeBase<TValue> node,
+    Setter<TSettings, TTarget> setter,
+    Func<TValue, TTarget> mutator) 
+    where TSettings: class 
+    => (settings, properties) => setter(settings, mutator(properties.GetPropertyValue<TValue>(node.Name)));
 
   public static Binder<TSettings> CreateComplex<TSettings, TFirst, TSecond, TTarget>(
     ValueNodeBase<TFirst> first,

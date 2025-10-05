@@ -24,17 +24,15 @@ public sealed class PluginUiBehaviorBuilder<TSettings>
   
   internal PluginUiBehaviorBuilder() {  }
   
-  public UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>> FromPanel() {
-    return _rootBuilder is null
+  public UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>> FromPanel() 
+    => _rootBuilder is null
       ? (UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>>)
         (_rootBuilder = new UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>>(this, this).WithName("Root"))
       : throw new MutuallyExclusiveException(nameof(FromPanel), nameof(FromTabset));
-  }
-  
-  // TODO: Implement tabset builder
-  public UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>> FromTabset() {
+
+  public UiTabsetBuilder<TSettings, PluginUiBehaviorBuilder<TSettings>> FromTabset() {
     if (_rootBuilder is not null) throw new MutuallyExclusiveException(nameof(FromPanel), nameof(FromTabset));
-    var builder = new UiPanelBuilderBase<TSettings, PluginUiBehaviorBuilder<TSettings>>(this, this);
+    var builder = new UiTabsetBuilder<TSettings, PluginUiBehaviorBuilder<TSettings>>(this, this);
     _rootBuilder = builder;
     return builder;
   }
@@ -46,8 +44,16 @@ public sealed class PluginUiBehaviorBuilder<TSettings>
     return this;
   }
   
-  internal void AddDirectBinding<TValue>(INodeBuilder<ValueNodeBase<TValue>> nodeBuilder, Setter<TSettings, TValue> selector) 
-    => _lazyBindings.Add(new Lazy<Binder<TSettings>>(() => Binder.CreateDirect(nodeBuilder.Result, selector)));
+  internal void AddMutatingBinding<TValue, TTarget>(INodeBuilder<ValueNodeBase<TValue>> nodeBuilder, Setter<TSettings, TTarget> setter, Func<TValue, TTarget> mutator)
+    => AddDelayedBinding(() => Binder.CreateMutating(nodeBuilder.Result, setter, mutator));
+  
+  internal void AddDirectBinding<TValue>(INodeBuilder<ValueNodeBase<TValue>> nodeBuilder, Setter<TSettings, TValue> setter) 
+    => AddDelayedBinding(() => Binder.CreateDirect(nodeBuilder.Result, setter));
+
+  internal void AddTabsetBinding(INodeBuilder<TabsetNode> nodeBuilder, Setter<TSettings, int> setter)
+    => AddDelayedBinding(() => Binder.CreateForTabNumber(nodeBuilder.Result, setter));
+  
+  private void AddDelayedBinding(Func<Binder<TSettings>> producer) => _lazyBindings.Add(new(producer));
 
   public PluginUiBehaviorBuilder<TSettings> WithTriggeringProperty<TValue>(ValueNodeBase<TValue> node) {
     _lazyTriggers.Add(new(() => node));

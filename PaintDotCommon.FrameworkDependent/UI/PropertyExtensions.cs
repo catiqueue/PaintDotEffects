@@ -28,6 +28,9 @@ public static class PropertyExtensions {
   public static Property GetProperty(this PropertyCollection properties, string name) 
     => properties[name] ?? throw new PropertyAccessException(name);
   
+  public static T GetProperty<T>(this PropertyCollection properties, string name) where T : Property 
+    => properties.GetProperty(name) as T ?? throw new PropertyAccessException($"{name} ({typeof(T).Name})");
+  
   public static T GetPropertyValue<T>(this PropertyCollection properties, string name) 
     => (T) (properties.GetProperty(name).Value ?? throw new PropertyAccessException(name));
 }

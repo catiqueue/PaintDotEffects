@@ -14,8 +14,20 @@ public abstract class UiContainerBuilderBase<TSettings, TParent, TResult, TContr
   private readonly List<INodeBuilder</*TSettings,*/ UiNodeBase/*<TSettings>*/>> _items = [];
   protected IEnumerable<INodeBuilder</*TSettings,*/ UiNodeBase/*<TSettings>*/>> Items => _items;
 
-  public UiIntParameterBuilder<TSettings, TSelf> AddInt() {
+  public UiIntParameterBuilder<TSettings, TSelf> WithInt() {
     var builder = new UiIntParameterBuilder<TSettings, TSelf>(Root, (TSelf) this);
+    _items.Add(builder);
+    return builder;
+  }
+  
+  public UiEnumListBuilder<TSettings, TSelf, TValue> WithChoiceList<TValue>() where TValue : notnull {
+    var builder = new UiEnumListBuilder<TSettings, TSelf, TValue>(Root, (TSelf)this);
+    _items.Add(builder);
+    return builder;
+  }
+  
+  public UiTabsetBuilder<TSettings, TSelf> WithTabset() {
+    var builder = new UiTabsetBuilder<TSettings, TSelf>(Root, (TSelf) this);
     _items.Add(builder);
     return builder;
   }

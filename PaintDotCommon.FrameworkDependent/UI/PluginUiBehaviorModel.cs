@@ -11,7 +11,7 @@ namespace catiqueue.PaintDotNet.Plugins.Common.UI;
 public class PluginUiBehaviorModel<TSettings> where TSettings : class 
 {
   private UiNodeBase/*<TSettings>*/ Root { get; }
-  private ControlInfo? Control { get; set; }
+  // private ControlInfo? Control { get; set; }
   internal Binder<TSettings>[] Bindings { get; }
   internal UiNodeBase[] TriggeringProperties { get; }
   internal PropertyCollectionRule[] Rules { get; }
@@ -35,6 +35,7 @@ public class PluginUiBehaviorModel<TSettings> where TSettings : class
     Rules = rules.ToArray();
   }
 
+  // Apparently, caching controls is a bad idea.
   internal ControlInfo GetControl(PropertyCollection properties)
-    => Control ??= Root.BuildControl(properties);
+    => Root.BuildControl(properties);
 }
