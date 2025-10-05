@@ -40,12 +40,13 @@ public sealed class PluginUiBehaviorBuilder<TSettings>
   }
 
   public PluginUiBehaviorBuilder<TSettings> WithDirectBinding<TValue>(ValueNodeBase<TValue> node, Expression<Func<TSettings, TValue>> selector) {
-    var binder = Binder.CreateDirect(node, selector);
+    var setter = Setter.Create(selector);
+    var binder = Binder.CreateDirect(node, setter);
     _lazyBindings.Add(new Lazy<Binder<TSettings>>(binder));
     return this;
   }
   
-  internal void AddDirectBinding<TValue>(INodeBuilder<ValueNodeBase<TValue>> nodeBuilder, Expression<Func<TSettings, TValue>> selector) 
+  internal void AddDirectBinding<TValue>(INodeBuilder<ValueNodeBase<TValue>> nodeBuilder, Setter<TSettings, TValue> selector) 
     => _lazyBindings.Add(new Lazy<Binder<TSettings>>(() => Binder.CreateDirect(nodeBuilder.Result, selector)));
 
   public PluginUiBehaviorBuilder<TSettings> WithTriggeringProperty<TValue>(ValueNodeBase<TValue> node) {

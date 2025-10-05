@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Binding;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building;
@@ -14,7 +15,7 @@ public static class Extensions {
     where TSelf : UiValueBuilderBase<TSettings, TParent, TSelf, TResult, TValue> 
     where TResult : ValueNodeBase<TValue> 
   {
-    builder.Root.AddDirectBinding(builder, selector);
+    builder.Root.AddDirectBinding(builder, Setter.Create(selector));
     return (TSelf) builder;
   }
   

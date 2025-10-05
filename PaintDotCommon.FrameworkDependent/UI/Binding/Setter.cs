@@ -7,10 +7,14 @@ namespace catiqueue.PaintDotNet.Plugins.Common.UI.Binding;
 public delegate void Setter<in TModel, in TProperty>(TModel instance, TProperty value);
 
 internal static class Setter {
-  public static Setter<TModel, TProperty> Create<TModel, TProperty>(Expression<Func<TModel, TProperty>> selector) where TModel : class => selector.CreateSetter();
+  public static Setter<TModel, TProperty> Create<TModel, TProperty>(Expression<Func<TModel, TProperty>> selector) 
+  where TModel : class 
+    => selector.CreateSetter();
 }
 
-internal static class ExpressionExtensions {
+
+
+file static class ExpressionExtensions {
   private static void ValidateSelector<TModel, TProperty>(this Expression<Func<TModel, TProperty>> selector, out PropertyInfo propertyInfo) 
   where TModel: class {
     if (selector.Body is not MemberExpression memberExpression)
@@ -23,7 +27,7 @@ internal static class ExpressionExtensions {
     propertyInfo = checkedPropertyInfo;
   }
   
-  public static Setter<TModel, TProperty> CreateSetter<TModel, TProperty>(this Expression<Func<TModel, TProperty>> selector) 
+  internal static Setter<TModel, TProperty> CreateSetter<TModel, TProperty>(this Expression<Func<TModel, TProperty>> selector) 
   where TModel: class { 
     ValidateSelector(selector, out var propertyInfo);
     
