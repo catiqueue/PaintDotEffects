@@ -1,4 +1,5 @@
-﻿using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
+﻿using System.Diagnostics.CodeAnalysis;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building.Base;
 
@@ -37,6 +38,7 @@ public abstract class UiBuilderBase<TSettings, TParent, TSelf, TResult>(PluginUi
     _result ??= Build();
     return root;
   }
+  
   public PluginUiBehaviorBuilder<TSettings> End(out TResult result) {
     result = _result ??= Build();
     return root;

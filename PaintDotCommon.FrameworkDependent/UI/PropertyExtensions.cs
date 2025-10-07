@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using catiqueue.PaintDotNet.Plugins.Common.Exceptions;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 using PaintDotNet.Collections;
 using PaintDotNet.IndirectUI;
 using PaintDotNet.PropertySystem;
-using PropertyConfigEntry = System.Collections.Generic.KeyValuePair<PaintDotNet.IndirectUI.ControlInfoPropertyNames, object>;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI;
 

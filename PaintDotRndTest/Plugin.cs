@@ -2,11 +2,10 @@
 using System.Buffers;
 using catiqueue.PaintDotNet.Plugins.Common;
 using catiqueue.PaintDotNet.Plugins.Common.Data;
-// using catiqueue.PaintDotNet.Plugins.Common.FrameworkDependent.UI.Building;
 using catiqueue.PaintDotNet.Plugins.Common.Rendering;
 using catiqueue.PaintDotNet.Plugins.Common.UI;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Building;
-using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Building.Extensions;
 using PaintDotNet.Imaging;
 using static catiqueue.PaintDotNet.Plugins.Common.Math;
 
@@ -26,12 +25,13 @@ internal sealed class Plugin() : CpuRenderingUiPluginBase<Settings>(new PluginIn
   }
 
   protected override PluginUiBehaviorModel<Settings> OnModelCreating(PluginUiBehaviorBuilder<Settings> behaviorBuilder) =>
-    behaviorBuilder.FromTabset().BindPageNumberTo(x => x.Zoom)
+    behaviorBuilder.FromTabset()
       .WithTab("Seed")
-        .WithInt().BindTo(x => x.Seed).WithValueRange(new(int.MinValue, int.MaxValue)).ChangeTriggersRebuild().Then().Then()
+        .WithIntegerSlider().BindTo(x => x.Seed).WithValueRange(new(int.MinValue, int.MaxValue)).ChangeTriggersRebuild().Then(out var seed)
+        .WithCheckbox().Locks(seed).WhenUnchecked().Then().Then().Then()
       .WithTab("Visual")
-        .WithInt()/* .BindTo(x => x.Zoom) */.WithValueRange(new(1, 128)).Then()
-        .WithChoiceList<int>().BindTo(x => x.Precision).WithChoice(2, "Binary").WithChoice(256, "Full Spectrum").End()
+        .WithIntegerSlider().BindTo(x => x.Zoom).WithValueRange(new(1, 128)).Then()
+        .WithChoiceList<int>().BindTo(x => x.Precision).WithChoice(2, "Binary").WithChoice(3, "3 Colors").WithChoice(4, "4 Colors").WithChoice(byte.MaxValue, "Full Spectrum").End()
       .Build();
 
   protected override void OnRegenerationRequired(Settings settings) {

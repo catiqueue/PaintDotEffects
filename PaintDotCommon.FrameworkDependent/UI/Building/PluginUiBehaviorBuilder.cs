@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using catiqueue.PaintDotNet.Plugins.Common.Exceptions;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Binding;
+using catiqueue.PaintDotNet.Plugins.Common.UI.Building.Rules;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 using PaintDotNet.Collections;
 using PaintDotNet.PropertySystem;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building;
 
-public sealed class PluginUiBehaviorBuilder<TSettings>
-  where TSettings : class 
-{
+public sealed class PluginUiBehaviorBuilder<TSettings> where TSettings : class {
   private INodeBuilder<UiNodeBase>? _rootBuilder;
   private readonly List<Lazy<Binder<TSettings>>> _lazyBindings = [];
   private readonly List<Lazy<PropertyCollectionRule>> _lazyRules = [];
@@ -36,38 +35,40 @@ public sealed class PluginUiBehaviorBuilder<TSettings>
     _rootBuilder = builder;
     return builder;
   }
-
-  public PluginUiBehaviorBuilder<TSettings> WithDirectBinding<TValue>(ValueNodeBase<TValue> node, Expression<Func<TSettings, TValue>> selector) {
+  
+  public PluginUiBehaviorBuilder<TSettings> WithBinding<TValue>(ValueNodeBase<TValue> node, Expression<Func<TSettings, TValue>> selector) => WithBinding(() => node, selector);
+  internal PluginUiBehaviorBuilder<TSettings> WithBinding<TValue>(Func<ValueNodeBase<TValue>> node, Expression<Func<TSettings, TValue>> selector) {
     var setter = Setter.Create(selector);
-    var binder = Binder.CreateDirect(node, setter);
-    _lazyBindings.Add(new Lazy<Binder<TSettings>>(binder));
+    _lazyBindings.Add(new Lazy<Binder<TSettings>>(() => Binder.CreateDirect(node(), setter)));
     return this;
   }
   
-  internal void AddMutatingBinding<TValue, TTarget>(INodeBuilder<ValueNodeBase<TValue>> nodeBuilder, Setter<TSettings, TTarget> setter, Func<TValue, TTarget> mutator)
-    => AddDelayedBinding(() => Binder.CreateMutating(nodeBuilder.Result, setter, mutator));
-  
-  internal void AddDirectBinding<TValue>(INodeBuilder<ValueNodeBase<TValue>> nodeBuilder, Setter<TSettings, TValue> setter) 
-    => AddDelayedBinding(() => Binder.CreateDirect(nodeBuilder.Result, setter));
-
-  internal void AddTabsetBinding(INodeBuilder<TabsetNode> nodeBuilder, Setter<TSettings, int> setter)
-    => AddDelayedBinding(() => Binder.CreateForTabNumber(nodeBuilder.Result, setter));
-  
-  private void AddDelayedBinding(Func<Binder<TSettings>> producer) => _lazyBindings.Add(new(producer));
-
-  public PluginUiBehaviorBuilder<TSettings> WithTriggeringProperty<TValue>(ValueNodeBase<TValue> node) {
-    _lazyTriggers.Add(new(() => node));
+  public PluginUiBehaviorBuilder<TSettings> WithBinding<TValue, TTarget>(ValueNodeBase<TValue> node, Expression<Func<TSettings, TTarget>> selector, Func<TValue, TTarget> mutator) => WithBinding(() => node, selector, mutator);
+  internal PluginUiBehaviorBuilder<TSettings> WithBinding<TValue, TTarget>(Func<ValueNodeBase<TValue>> node, Expression<Func<TSettings, TTarget>> selector, Func<TValue, TTarget> mutator) {
+    var setter = Setter.Create(selector);
+    _lazyBindings.Add(new Lazy<Binder<TSettings>>(() => Binder.CreateMutating(node(), setter, mutator)));
     return this;
   }
   
-  internal void AddTriggeringProperty<TValue>(INodeBuilder<ValueNodeBase<TValue>> nodeBuilder) 
-    => _lazyTriggers.Add(new(() => nodeBuilder.Result));
-
-  // TODO: Implement rules adequately
-  public PluginUiBehaviorBuilder<TSettings> WithRule(PropertyCollectionRule rule) {
-    _lazyRules.Add(new(rule));
+  public PluginUiBehaviorBuilder<TSettings> WithBinding(TabsetNode node, Expression<Func<TSettings, int>> selector) => WithBinding(() => node, selector);
+  internal PluginUiBehaviorBuilder<TSettings> WithBinding(Func<TabsetNode> node, Expression<Func<TSettings, int>> selector) {
+    var setter = Setter.Create(selector);
+    _lazyBindings.Add(new Lazy<Binder<TSettings>>(() => Binder.CreateForTabNumber(node(), setter)));
     return this;
   }
-  
+
+  public PluginUiBehaviorBuilder<TSettings> WithTriggeringProperty<TValue>(ValueNodeBase<TValue> node) => WithTriggeringProperty(() => node);
+  internal PluginUiBehaviorBuilder<TSettings> WithTriggeringProperty<TValue>(Func<ValueNodeBase<TValue>> node) {
+    _lazyTriggers.Add(new(node));
+    return this;
+  }
+
+  public UiCheckboxLockBuilder<PluginUiBehaviorBuilder<TSettings>> WithCheckboxReadonlyRule() => WithCheckboxReadonlyRule(this);
+  internal UiCheckboxLockBuilder<TParent> WithCheckboxReadonlyRule<TParent>(TParent parent) {
+    var ruleBuilder = new UiCheckboxLockBuilder<TParent>(parent);
+    _lazyRules.Add(new(() => ruleBuilder.Result));
+    return ruleBuilder;
+  }
+
   public PluginUiBehaviorModel<TSettings> Build() => new(Root, Bindings, Triggers, Rules);
 }

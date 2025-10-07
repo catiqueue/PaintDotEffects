@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 using PaintDotNet.IndirectUI;
 
@@ -12,8 +13,10 @@ public abstract class UiValueBuilderBase<TSettings, TParent, TSelf, TResult, TVa
   {
   // even though these properties are applicable to all controls (theoretically),
   // I haven't encountered a case where I would need them outside a value control.
-  protected Dictionary<ControlInfoPropertyNames, object> Configuration { get; } = new();
+  private readonly Dictionary<ControlInfoPropertyNames, object> _configuration = new();
+  
   protected PropertyControlType ControlType { get; set; }
+  protected IEnumerable<PropertyConfigEntry> Configuration => _configuration.Select(kvp => new PropertyConfigEntry(kvp.Key, kvp.Value));
   
   protected TValue? DefaultValue { get; private set; }
 
@@ -27,5 +30,11 @@ public abstract class UiValueBuilderBase<TSettings, TParent, TSelf, TResult, TVa
     return (TSelf) this;
   }
   
-  protected void SetDisplayName(string name) => Configuration[ControlInfoPropertyNames.DisplayName] = name;
+  protected TSelf WithConfiguration(ControlInfoPropertyNames name, object value) {
+    _configuration[name] = value;
+    return (TSelf) this;
+  }
+
+  protected TSelf WithDisplayName(string name) => WithConfiguration(ControlInfoPropertyNames.DisplayName, name);
+  protected TSelf WithDescription(string description) => WithConfiguration(ControlInfoPropertyNames.Description, description);
 }

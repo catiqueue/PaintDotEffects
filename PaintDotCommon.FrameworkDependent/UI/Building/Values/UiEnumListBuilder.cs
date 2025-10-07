@@ -27,7 +27,7 @@ public sealed class UiEnumListBuilder<TSettings, TParent, TValue>
     return new ChoiceListNode<TValue>(
       Name,
       _choices.FirstOrDefault() is var choice ? choice.Key : throw new IncompleteDefinitionException(nameof(UiEnumListBuilder<TSettings, TParent, TValue>), "Choices"),
-      _choices.Select(kvp => new Choice<TValue>(kvp.Key, kvp.Value)),
+      _choices.Select(kvp => new ChoiceListNode<TValue>.Choice(kvp.Key, kvp.Value)),
       Configuration);
   }
 }

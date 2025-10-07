@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using PaintDotNet.IndirectUI;
 using PaintDotNet.PropertySystem;
-using PropertyConfigEntry = System.Collections.Generic.KeyValuePair<PaintDotNet.IndirectUI.ControlInfoPropertyNames, object>;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
+
+public readonly record struct PropertyConfigEntry(ControlInfoPropertyNames Key, object Value);
 
 public abstract class ValueNodeBase<TValue>(
   string name, 

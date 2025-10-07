@@ -7,19 +7,19 @@ using PaintDotNet.PropertySystem;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 
-public record Choice<TValue>(TValue Value, string Name);
-
 public sealed class ChoiceListNode<TValue> : ValueNodeBase<TValue>
   where TValue : notnull 
 {
-  private static int _nameCounter = 0; 
-  private readonly Choice<TValue>[] _choices;
+  public readonly record struct Choice(TValue Value, string Name);
+  
+  private static int _nameCounter = 0;
+  private readonly Choice[] _choices;
   private readonly int _defaultIndex;
   
-  public ChoiceListNode(string? name, TValue defaultValue, IEnumerable<TValue> choices, IEnumerable<KeyValuePair<ControlInfoPropertyNames, object>> configuration)
-    : this(name, defaultValue, choices.Select(value => new Choice<TValue>(value, value.ToString() ?? string.Empty)), configuration) { }
+  public ChoiceListNode(string? name, TValue defaultValue, IEnumerable<TValue> choices, IEnumerable<PropertyConfigEntry> configuration)
+    : this(name, defaultValue, choices.Select(value => new Choice(value, value.ToString() ?? string.Empty)), configuration) { }
 
-  public ChoiceListNode(string? name, TValue defaultValue, IEnumerable<Choice<TValue>> choices, IEnumerable<KeyValuePair<ControlInfoPropertyNames, object>> configuration) 
+  public ChoiceListNode(string? name, TValue defaultValue, IEnumerable<Choice> choices, IEnumerable<PropertyConfigEntry> configuration) 
     : base(name ?? $"ChoiceList_{_nameCounter++}", defaultValue, configuration, PropertyControlType.DropDown) 
   {
     _choices = choices.ToArray();

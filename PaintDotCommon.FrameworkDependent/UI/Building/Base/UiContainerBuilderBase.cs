@@ -15,8 +15,14 @@ public abstract class UiContainerBuilderBase<TSettings, TParent, TResult, TContr
   private readonly List<INodeBuilder<UiNodeBase>> _items = [];
   protected IEnumerable<INodeBuilder<UiNodeBase>> Items => _items;
 
-  public UiIntParameterBuilder<TSettings, TSelf> WithInt() {
+  public UiIntParameterBuilder<TSettings, TSelf> WithIntegerSlider() {
     var builder = new UiIntParameterBuilder<TSettings, TSelf>(Root, (TSelf) this);
+    _items.Add(builder);
+    return builder;
+  }
+
+  public UiCheckboxBuilder<TSettings, TSelf> WithCheckbox() {
+    var builder = new UiCheckboxBuilder<TSettings, TSelf>(Root, (TSelf) this);
     _items.Add(builder);
     return builder;
   }
