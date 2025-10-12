@@ -6,7 +6,7 @@ namespace catiqueue.PaintDotNet.Plugins.Common.UI.Binding;
 
 public delegate void Setter<in TModel, in TProperty>(TModel instance, TProperty value);
 
-internal static class Setter {
+public static class Setter {
   public static Setter<TModel, TProperty> Create<TModel, TProperty>(Expression<Func<TModel, TProperty>> selector) 
   where TModel : class 
     => selector.CreateSetter();

@@ -21,6 +21,7 @@ public abstract class UiValueBuilderBase<TSettings, TParent, TSelf, TResult, TVa
   protected TValue? DefaultValue { get; private set; }
 
   public new TSelf WithName(string name) => (TSelf) base.WithName(name);
+  protected override void OnSetName(string name) => WithDisplayName(name);
 
   // you can't check the nullability of this value in inherited classes so this workaround is necessary
   protected bool DefaultSet { get; private set; }

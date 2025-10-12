@@ -23,4 +23,25 @@ public static class RuleExtensions {
   )
     where TSettings : class
   => builder.Root.WithCheckboxReadonlyRule(builder).WithSource(() => builder.Result).WithTarget(value);
+
+  public static UiListValueLockBuilder<TSelf, TChoice> LockedBy<TSettings, TParent, TSelf, TResult, TValue, TChoice>
+  (
+    this UiValueBuilderBase<TSettings, TParent, TSelf, TResult, TValue> builder,
+    ChoiceListNode<TChoice> value
+  )
+    where TChoice : notnull
+    where TSettings : class
+    where TSelf : UiValueBuilderBase<TSettings, TParent, TSelf, TResult, TValue>
+    where TResult : ValueNodeBase<TValue> 
+  => builder.Root.WithListValueReadonlyRule<TSelf, TChoice>((TSelf) builder).WithSource(value).WithTarget(() => builder.Result);
+  
+  public static UiListValueLockBuilder<UiChoiceListBuilder<TSettings, TParent, TChoice>, TChoice> Locks<TSettings, TParent, TValue, TChoice>
+  (
+    this UiChoiceListBuilder<TSettings, TParent, TChoice> builder,
+    ValueNodeBase<TValue> value
+  )
+    where TSettings : class
+    where TValue : notnull
+    where TChoice : notnull
+  => builder.Root.WithListValueReadonlyRule<UiChoiceListBuilder<TSettings, TParent, TChoice>, TChoice>(builder).WithSource(() => builder.Result).WithTarget(value);
 }

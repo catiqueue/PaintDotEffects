@@ -5,14 +5,14 @@ using PaintDotNet.PropertySystem;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Building.Rules;
 
-public sealed class UiCheckboxLockBuilder<TParent> : UiLockBuilderBase<TParent, ReadOnlyBoundToBooleanRule>
+public sealed class UiCheckboxLockBuilder<TParent> : UiRuleBuilderBase<TParent, ReadOnlyBoundToBooleanRule>
 {
   internal UiCheckboxLockBuilder(TParent parent) : base(parent) { }
 
-  private Lazy<CheckboxNode>? _source;
-  private CheckboxNode Source => _source?.Value ?? throw new IncompleteDefinitionException(nameof(UiCheckboxLockBuilder<TParent>), nameof(Source));
-  private Lazy<UiNodeBase>? _target;
-  private UiNodeBase Target => _target?.Value ?? throw new IncompleteDefinitionException(nameof(UiCheckboxLockBuilder<TParent>), nameof(Target));
+  private Func<CheckboxNode>? _source;
+  private CheckboxNode Source => _source?.Invoke() ?? throw new IncompleteDefinitionException(nameof(UiCheckboxLockBuilder<TParent>), nameof(Source));
+  private Func<UiNodeBase>? _target;
+  private UiNodeBase Target => _target?.Invoke() ?? throw new IncompleteDefinitionException(nameof(UiCheckboxLockBuilder<TParent>), nameof(Target));
   private bool? _inverse;
   private bool Inverse => _inverse ?? false;
 
@@ -21,14 +21,14 @@ public sealed class UiCheckboxLockBuilder<TParent> : UiLockBuilderBase<TParent, 
   public UiCheckboxLockBuilder<TParent> WithSource(CheckboxNode source) => WithSource(() => source);
   internal UiCheckboxLockBuilder<TParent> WithSource(Func<CheckboxNode> source) {
     if (_source is not null) throw new ParameterDefinedException(nameof(UiCheckboxLockBuilder<TParent>), nameof(Source));
-    _source = new Lazy<CheckboxNode>(source);
+    _source = source;
     return this;
   }
   
   public UiCheckboxLockBuilder<TParent> WithTarget(UiNodeBase target) => WithTarget(() => target);
   internal UiCheckboxLockBuilder<TParent> WithTarget(Func<UiNodeBase> target) {
     if (_target is not null) throw new ParameterDefinedException(nameof(UiCheckboxLockBuilder<TParent>), nameof(Target));
-    _target = new Lazy<UiNodeBase>(target);
+    _target = target;
     return this;
   }
 

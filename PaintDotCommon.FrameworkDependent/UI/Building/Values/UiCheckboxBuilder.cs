@@ -8,5 +8,6 @@ public sealed class UiCheckboxBuilder<TSettings, TParent>
   where TSettings : class 
 {
   internal UiCheckboxBuilder(PluginUiBehaviorBuilder<TSettings> root, TParent parent) : base(root, parent) { }
+  protected override void OnSetName(string name) => WithDisplayName("").WithDescription(name);
   protected override CheckboxNode Build() => new(Name, DefaultValue, Configuration);
 }

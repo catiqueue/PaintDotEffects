@@ -7,9 +7,8 @@ using PaintDotNet.PropertySystem;
 
 namespace catiqueue.PaintDotNet.Plugins.Common.UI.Nodes;
 
-public sealed class ChoiceListNode<TValue> : ValueNodeBase<TValue>
-  where TValue : notnull 
-{
+
+public sealed class ChoiceListNode<TValue> : ValueNodeBase<TValue> where TValue : notnull {
   public readonly record struct Choice(TValue Value, string Name);
   
   private static int _nameCounter = 0;

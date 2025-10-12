@@ -50,6 +50,69 @@ public sealed class PluginUiBehaviorBuilder<TSettings> where TSettings : class {
     return this;
   }
   
+  public PluginUiBehaviorBuilder<TSettings> WithBinding<TValue1, TValue2, TTarget>
+  (
+    ValueNodeBase<TValue1> node1,
+    ValueNodeBase<TValue2> node2,
+    Expression<Func<TSettings, TTarget>> selector,
+    Func<TValue1, TValue2, TTarget> producer
+  ) => WithBinding(() => node1, () => node2, selector, producer);
+  internal PluginUiBehaviorBuilder<TSettings> WithBinding<TValue1, TValue2, TTarget>
+  (
+    Func<ValueNodeBase<TValue1>> node1,
+    Func<ValueNodeBase<TValue2>> node2,
+    Expression<Func<TSettings, TTarget>> selector,
+    Func<TValue1, TValue2, TTarget> producer
+  ) {
+    var setter = Setter.Create(selector);
+    _lazyBindings.Add(new Lazy<Binder<TSettings>>(() => Binder.CreateComplex(node1(), node2(), setter, producer)));
+    return this;
+  }
+  
+  public PluginUiBehaviorBuilder<TSettings> WithBinding<TValue1, TValue2, TValue3, TTarget>
+  (
+    ValueNodeBase<TValue1> node1,
+    ValueNodeBase<TValue2> node2,
+    ValueNodeBase<TValue3> node3,
+    Expression<Func<TSettings, TTarget>> selector,
+    Func<TValue1, TValue2, TValue3, TTarget> producer
+  ) => WithBinding(() => node1, () => node2, () => node3, selector, producer);
+  internal PluginUiBehaviorBuilder<TSettings> WithBinding<TValue1, TValue2, TValue3, TTarget>
+  (
+    Func<ValueNodeBase<TValue1>> node1,
+    Func<ValueNodeBase<TValue2>> node2,
+    Func<ValueNodeBase<TValue3>> node3,
+    Expression<Func<TSettings, TTarget>> selector,
+    Func<TValue1, TValue2, TValue3, TTarget> producer
+  ) {
+    var setter = Setter.Create(selector);
+    _lazyBindings.Add(new Lazy<Binder<TSettings>>(() => Binder.CreateComplex(node1(), node2(), node3(), setter, producer)));
+    return this;
+  }
+  
+  public PluginUiBehaviorBuilder<TSettings> WithBinding<TValue1, TValue2, TValue3, TValue4, TTarget>
+  (
+    ValueNodeBase<TValue1> node1,
+    ValueNodeBase<TValue2> node2,
+    ValueNodeBase<TValue3> node3,
+    ValueNodeBase<TValue4> node4,
+    Expression<Func<TSettings, TTarget>> selector,
+    Func<TValue1, TValue2, TValue3, TValue4, TTarget> producer
+  ) => WithBinding(() => node1, () => node2, () => node3, () => node4, selector, producer);
+  internal PluginUiBehaviorBuilder<TSettings> WithBinding<TValue1, TValue2, TValue3, TValue4, TTarget>
+  (
+    Func<ValueNodeBase<TValue1>> node1,
+    Func<ValueNodeBase<TValue2>> node2,
+    Func<ValueNodeBase<TValue3>> node3,
+    Func<ValueNodeBase<TValue4>> node4,
+    Expression<Func<TSettings, TTarget>> selector,
+    Func<TValue1, TValue2, TValue3, TValue4, TTarget> producer
+  ) {
+    var setter = Setter.Create(selector);
+    _lazyBindings.Add(new Lazy<Binder<TSettings>>(() => Binder.CreateComplex(node1(), node2(), node3(), node4(), setter, producer)));
+    return this;
+  }
+  
   public PluginUiBehaviorBuilder<TSettings> WithBinding(TabsetNode node, Expression<Func<TSettings, int>> selector) => WithBinding(() => node, selector);
   internal PluginUiBehaviorBuilder<TSettings> WithBinding(Func<TabsetNode> node, Expression<Func<TSettings, int>> selector) {
     var setter = Setter.Create(selector);
@@ -66,6 +129,14 @@ public sealed class PluginUiBehaviorBuilder<TSettings> where TSettings : class {
   public UiCheckboxLockBuilder<PluginUiBehaviorBuilder<TSettings>> WithCheckboxReadonlyRule() => WithCheckboxReadonlyRule(this);
   internal UiCheckboxLockBuilder<TParent> WithCheckboxReadonlyRule<TParent>(TParent parent) {
     var ruleBuilder = new UiCheckboxLockBuilder<TParent>(parent);
+    _lazyRules.Add(new(() => ruleBuilder.Result));
+    return ruleBuilder;
+  }
+
+  public UiListValueLockBuilder<PluginUiBehaviorBuilder<TSettings>, TValue> WithListValueReadonlyRule<TValue>() where TValue : notnull 
+    => WithListValueReadonlyRule<PluginUiBehaviorBuilder<TSettings>, TValue>(this);
+  internal UiListValueLockBuilder<TParent, TValue> WithListValueReadonlyRule<TParent, TValue>(TParent parent) where TValue : notnull {
+    var ruleBuilder = new UiListValueLockBuilder<TParent, TValue>(parent);
     _lazyRules.Add(new(() => ruleBuilder.Result));
     return ruleBuilder;
   }

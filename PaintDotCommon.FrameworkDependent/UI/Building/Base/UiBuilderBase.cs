@@ -17,10 +17,12 @@ public abstract class UiBuilderBase<TSettings, TParent, TSelf, TResult>(PluginUi
   
   protected string? Name { get; private set; }
   
-  internal TSelf WithName(string name) {
-    Name = name;
+  public TSelf WithName(string name) {
+    OnSetName(Name = name);
     return (TSelf) this;
   }
+  
+  protected virtual void OnSetName(string name) { }
 
   protected abstract TResult Build();
 

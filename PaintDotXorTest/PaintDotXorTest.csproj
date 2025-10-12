@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- Set this to the location where you have Paint.NET installed. If you have the Microsoft
-         Store version, you should download the portable version and point this at that. -->
-    <PdnRoot>C:\Program Files\paint.net</PdnRoot>
+    <AssemblyName>PaintDotXorTest</AssemblyName>
+    <Nullable>enable</Nullable>
+    <RootNamespace>catiqueue.PaintDotNet.Plugins.PaintDotXorTest</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
+    <!-- Set this to the location where you have Paint.NET installed. If you have the Microsoft
+     Store version, you should download the portable version and point this at that. -->
+    <PdnRoot>C:\Program Files\paint.net</PdnRoot>
     <TargetFramework>net9.0-windows</TargetFramework>
-    <RootNamespace>catiqueue.PaintDotNet.Plugins.PaintDotRndTest</RootNamespace>
-    <Nullable>enable</Nullable>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>    

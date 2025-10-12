@@ -8,7 +8,7 @@ namespace catiqueue.PaintDotNet.Plugins.Common.UI.Binding;
 
 public delegate void Binder<in TSettings>(TSettings settings, PropertyCollection properties) ;
 
-internal static class Binder {
+public static class Binder {
   public static Binder<TSettings> CreateDirect<TSettings, TTarget>(
     ValueNodeBase<TTarget> node,
     Setter<TSettings, TTarget> setter) 
